@@ -57,7 +57,8 @@ class RequirementsList implements \IteratorAggregate {
       $this->requirements = $requirements;
    }
 
-   public function getIterator(): \Traversable {
+
+   public function getIterator(): \Traversable{
       return new \ArrayIterator($this->requirements);
    }
 
