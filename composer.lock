@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2328af1a653ec3d6ba602d4b9414c17",
+    "content-hash": "403ec22b44df869d08b2532edb860623",
     "packages": [
         {
             "name": "blueimp/jquery-file-upload",
@@ -4864,57 +4864,6 @@
                 "source": "https://github.com/atoum/atoum/tree/4.0.3"
             },
             "time": "2021-10-22T08:10:33+00:00"
-        },
-        {
-            "name": "atoum/deprecated-extension",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/atoum/deprecated-extension.git",
-                "reference": "6f1264da7fc3d34c451396e64ee1461b15af6fdf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/atoum/deprecated-extension/zipball/6f1264da7fc3d34c451396e64ee1461b15af6fdf",
-                "reference": "6f1264da7fc3d34c451396e64ee1461b15af6fdf",
-                "shasum": ""
-            },
-            "require-dev": {
-                "atoum/atoum": ">=1.0,<3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "autoloader.php"
-                ],
-                "psr-4": {
-                    "mageekguy\\atoum\\deprecated\\": "classes"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Adrien Gallou",
-                    "email": "adriengallou@gmail.com"
-                }
-            ],
-            "description": "atoum extension to avoid failures on deprecated errors",
-            "homepage": "http://www.atoum.org",
-            "keywords": [
-                "TDD",
-                "atoum",
-                "deprecated",
-                "test",
-                "unit testing"
-            ],
-            "support": {
-                "issues": "https://github.com/atoum/deprecated-extension/issues",
-                "source": "https://github.com/atoum/deprecated-extension/tree/1.0.0"
-            },
-            "time": "2016-01-08T17:19:30+00:00"
         },
         {
             "name": "consolidation/annotated-command",
