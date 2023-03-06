@@ -6,7 +6,7 @@ mkdir -p $(dirname "$LOG_FILE")
 # Reconfigure DB
 bin/console itsmng:database:configure \
   --config-dir=./tests/config --ansi --no-interaction \
-  --reconfigure --db-name=glpitest0723 --db-host=db --db-user=root
+  --reconfigure --db-name=glpitest0723 --db-host=db --db-user=root | tee $LOG_FILE
 
 # Execute update
 ## First run should do the migration.
@@ -47,7 +47,7 @@ fi
 # Test that updated DB has same schema as newly installed DB
 bin/console itsmng:database:configure \
   --config-dir=./tests/config --no-interaction \
-  --reconfigure --db-name=glpi --db-host=db --db-user=root
+  --reconfigure --db-name=glpi --db-host=db --db-user=root | tee $LOG_FILE
 vendor/bin/atoum \
   -p 'php -d memory_limit=512M' \
   --debug \
