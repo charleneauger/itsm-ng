@@ -6,7 +6,7 @@ mkdir -p $(dirname "$LOG_FILE")
 # Execute install
 bin/console itsmng:database:install \
   --config-dir=./tests/config --ansi --no-interaction \
-  --reconfigure --db-name=glpi --db-host=db --db-user=root --force
+  --reconfigure --db-name=glpi --db-host=db --db-user=root --force | tee $LOG_FILE
 
 # Execute update
 ## Should do nothing.
