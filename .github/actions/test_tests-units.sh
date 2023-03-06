@@ -10,6 +10,7 @@ fi
 
 vendor/bin/atoum \
   -p 'php -d memory_limit=512M' \
+  -p 'php -d error_reporting=E_ALL^E_DEPRECATED' \
   --debug \
   --force-terminal \
   --use-dot-report \
