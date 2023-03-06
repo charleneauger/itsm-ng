@@ -47,14 +47,12 @@ fi
 # Test that updated DB has same schema as newly installed DB
 bin/console itsmng:database:configure \
   --config-dir=./tests/config --no-interaction \
-  --reconfigure --db-name=glpi --db-host=db --db-user=root | tee $LOG_FILE
+  --reconfigure --db-name=glpi --db-host=db --ansi --db-user=root | tee $LOG_FILE
 vendor/bin/atoum \
   -p 'php -d memory_limit=512M' \
-  --debug \
   --force-terminal \
   --use-dot-report \
   --bootstrap-file tests/bootstrap.php \
   --no-code-coverage \
-  --fail-if-skipped-methods \
   --max-children-number 1 \
   -d tests/database
