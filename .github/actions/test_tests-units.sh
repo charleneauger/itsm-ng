@@ -14,6 +14,8 @@ vendor/bin/atoum \
   --force-terminal \
   --use-dot-report \
   --bootstrap-file tests/bootstrap.php \
+  --fail-if-void-methods \
+  --fail-if-skipped-methods \
   $ATOUM_ADDITIONNAL_OPTIONS \
   --max-children-number 10 \
   -d tests/units
