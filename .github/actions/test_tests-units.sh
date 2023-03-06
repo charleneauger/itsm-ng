@@ -1,9 +1,6 @@
 #!/bin/bash -e
 set -e -u -x -o pipefail
 
-LOG_FILE="./tests/files/_log/units.log"
-mkdir -p $(dirname "$LOG_FILE")
-
 ATOUM_ADDITIONNAL_OPTIONS=""
 if [[ "$CODE_COVERAGE" = true ]]; then
   export COVERAGE_DIR="coverage-unit"
@@ -21,6 +18,6 @@ vendor/bin/atoum \
   --fail-if-skipped-methods \
   $ATOUM_ADDITIONNAL_OPTIONS \
   --max-children-number 10 \
-  -d tests/units | tee $LOG_FILE
+  -d tests/units
 
 unset COVERAGE_DIR
