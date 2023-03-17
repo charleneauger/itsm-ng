@@ -37,6 +37,8 @@ use Glpi\System\RequirementsManager;
 use Laminas\Cache\Storage\AvailableSpaceCapableInterface;
 use Laminas\Cache\Storage\FlushableInterface;
 use Laminas\Cache\Storage\TotalSpaceCapableInterface;
+use Laminas\Cache\Service\StorageAdapterFactoryInterface;
+use Laminas\ServiceManager\ServiceManager;
 use PHPMailer\PHPMailer\PHPMailer;
 
 if (!defined('GLPI_ROOT')) {
@@ -64,10 +66,44 @@ class Config extends CommonDBTM {
    static $undisclosedFields      = ['proxy_passwd', 'smtp_passwd'];
    static $saferUndisclosedFields = ['admin_email', 'admin_reply'];
 
+   /**
+    * @var StorageAdapterFactoryInterface|null
+    */
+   private static $storageAdapterFactory;
+   
+   public static function factory(array $config): Laminas\Cache\Storage\Adapter\Filesystem
+   {
+      $storageFactory = self::storageAdapterFactorySingleton();
+      return $storageFactory->createFromArrayConfiguration($config);
+   }
+
+   /**
+    * Singletons are considered bad, for more about this topic read this article
+    * https://www.michaelsafyan.com/tech/design/patterns/singleton
+    * But as you don't use dependency injection, thats actually a way to restore `StorageFactory` behavior as it was done
+    * in laminas-cache v2.
+    */
+   private static function storageAdapterFactorySingleton(): StorageAdapterFactoryInterface
+   {
+      if (self::$storageAdapterFactory) {
+         return self::$storageAdapterFactory;
+      }
+      
+      $config = array_merge_recursive(
+         (new \Laminas\Cache\Storage\Adapter\Memory\ConfigProvider())(),
+         (new \Laminas\Cache\Storage\Adapter\Filesystem\ConfigProvider())(),
+         (new \Laminas\Cache\ConfigProvider())(),
+      );
+      
+      $containerConfiguration = $config['dependencies'] ?? [];
+      
+      $container = new ServiceManager($containerConfiguration);
+      return self::$storageAdapterFactory = $container->get(StorageAdapterFactoryInterface::class);
+   }
+
    static function getTypeName($nb = 0) {
       return __('Setup');
    }
-
 
    static function getMenuContent() {
       $menu = [];
@@ -3247,12 +3283,17 @@ class Config extends CommonDBTM {
       }
       // Some know plugins require data serialization
       if ($ser && !isset($opt['plugins'])) {
-         $opt['plugins'] = ['serializer'];
+         $opt['plugins'] = [
+            [
+               'name' => 'serializer',
+               'options' => []
+            ],
+         ];
       }
 
       // Create adapter
       try {
-         $storage = Laminas\Cache\StorageFactory::factory($opt);
+         $storage = self::factory($opt);
       } catch (Exception $e) {
          if (!$is_computed_config) {
             Toolbox::logError($e->getMessage());
@@ -3267,14 +3308,19 @@ class Config extends CommonDBTM {
                   'cache_dir' => GLPI_CACHE_DIR . '/' . $optname,
                   'namespace' => $namespace,
                ],
-               'plugins'   => ['serializer']
+               'plugins'   => [
+                  [
+                     'name' => 'serializer',
+                     'options' => []
+                  ],
+               ]
             ];
 
             if (!is_dir($opt['options']['cache_dir'])) {
                mkdir($opt['options']['cache_dir']);
             }
             try {
-               $storage = Laminas\Cache\StorageFactory::factory($opt);
+               $storage = self::factory($opt);
                $fallback = true;
             } catch (Exception $e1) {
                Toolbox::logError($e1->getMessage());
@@ -3288,7 +3334,8 @@ class Config extends CommonDBTM {
 
          if ($fallback === false) {
             $opt = ['adapter' => 'memory'];
-            $storage = Laminas\Cache\StorageFactory::factory($opt);
+            $storage = self::factory($opt);
+            $storage = $storageFactory->createFromArrayConfiguration($opt);
          }
          if (isset($_SESSION['glpi_use_mode'])
              && Session::DEBUG_MODE == $_SESSION['glpi_use_mode']) {
