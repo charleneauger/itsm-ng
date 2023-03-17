@@ -18,7 +18,7 @@ vendor/bin/atoum \
   --fail-if-skipped-methods \
   $ATOUM_ADDITIONNAL_OPTIONS \
   --max-children-number 10 \
-  --no-code-coverage-in-directories /var/itsm/vendor \
+  --no-code-coverage-in-directories vendor \
   -d tests/units
 
 unset COVERAGE_DIR
