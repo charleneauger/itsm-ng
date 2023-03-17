@@ -37,6 +37,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  *  Database iterator class for Mysql
 **/
+#[AllowDynamicProperties]
 class DBmysqlIterator implements Iterator, Countable {
    /**
     * DBmysql object

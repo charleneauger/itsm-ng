@@ -39,6 +39,7 @@ if (!defined('GLPI_ROOT')) {
 /**
 *  Common DataBase Table Manager Class - Persistent Object
 **/
+#[AllowDynamicProperties]
 class CommonDBTM extends CommonGLPI {
 
    /**
