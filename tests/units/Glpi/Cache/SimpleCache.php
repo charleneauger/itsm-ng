@@ -56,7 +56,7 @@ class SimpleCache extends \GLPITestCase {
       $footprint_file = vfsStream::url('glpi/cache/' . $cache_namespace . '.json');
 
       $this->newTestedInstance(
-         new \mock\Laminas\Cache\Storage\Adapter\Memory(['namespace' => $cache_namespace]),
+         new \mock\Laminas\Cache\Storage\Adapter\AbstractAdapter(['namespace' => $cache_namespace]),
          $cache_dir
       );
 
