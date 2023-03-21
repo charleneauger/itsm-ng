@@ -55,11 +55,8 @@ class SimpleCache extends \GLPITestCase {
 
       $footprint_file = vfsStream::url('glpi/cache/' . $cache_namespace . '.json');
 
-      // Test
-      uopz_flags(\Laminas\Cache\Storage\Adapter\Memory::class, null, ZEND_ACC_CLASS);
-
       $this->newTestedInstance(
-         new \mock\Laminas\Cache\Storage\Adapter\Memory(['namespace' => $cache_namespace]),
+         new \Laminas\Cache\Storage\Adapter\Memory(['namespace' => $cache_namespace]),
          $cache_dir
       );
 
